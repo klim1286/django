@@ -8,29 +8,68 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ProductCategory',
+            name="ProductCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Имя')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Имя")),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
             ],
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, verbose_name='Имя')),
-                ('price', models.DecimalField(decimal_places=2, default=0, max_digits=7, verbose_name='Цена')),
-                ('color', models.CharField(default='0x000000', max_length=8, verbose_name='Цвет')),
-                ('description', models.TextField(blank=True, verbose_name='Описание')),
-                ('image', models.ImageField(blank=True, upload_to='', verbose_name='Картинка')),
-                ('quantity', models.PositiveIntegerField(default=0, verbose_name='Количество')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mainapp.productcategory')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100, verbose_name="Имя")),
+                (
+                    "price",
+                    models.DecimalField(
+                        decimal_places=2, default=0, max_digits=7, verbose_name="Цена"
+                    ),
+                ),
+                (
+                    "color",
+                    models.CharField(
+                        default="0x000000", max_length=8, verbose_name="Цвет"
+                    ),
+                ),
+                ("description", models.TextField(blank=True, verbose_name="Описание")),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, upload_to="", verbose_name="Картинка"
+                    ),
+                ),
+                (
+                    "quantity",
+                    models.PositiveIntegerField(default=0, verbose_name="Количество"),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="mainapp.productcategory",
+                    ),
+                ),
             ],
         ),
     ]
