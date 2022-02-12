@@ -2,7 +2,7 @@
 <ul class="menu">
     {% for link in main_menu_links %}
     <li><a href="{% url link.url %}" 
-        {% if request.resolver_match.url_name == link.url %}
+        {% if request.resolver_match.view_name in link.active %}
             class="active"
         {% endif %}
         >
@@ -15,7 +15,17 @@
             {{ user.first_name|default:'Пользователь' }}          
         </a>
     </li>
-    {% endif %}  
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <li>
+        <a href="{% url 'basket:view' %}">Корзина
+            {% if user.basket.all|length %} ({{ user.basket.all|length}}) {% endif %}
+
+        </a>
+    </li>
+    {% endif %}
+
     <li>
         {% if user.is_authenticated %}
         <a href="{% url 'auth:logout' %}">выйти</a>
@@ -23,6 +33,7 @@
         <a href="{% url 'auth:login' %}">войти</a>
         {% endif %}
     </li>
+
 
 </ul>
 <a href="#" class="search"></a>
