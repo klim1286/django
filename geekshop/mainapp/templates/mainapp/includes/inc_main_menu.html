@@ -19,8 +19,9 @@
 
     {% if user.is_authenticated %}
     <li>
-        <a href="{% url 'basket:view' %}">Корзина
-            {% if user.basket.all|length %} ({{ user.basket.all|length}}) {% endif %}
+        <a href="{% url 'basket:view' %}">
+            <i class="fa fa-shopping-basket"></i>
+            {{ user.basket.total_cost }} руб. ({{ user.basket.total_quantity }})
 
         </a>
     </li>
