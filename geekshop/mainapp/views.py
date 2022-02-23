@@ -1,5 +1,6 @@
 import random
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage
 from django.utils import timezone
 from .models import Product, ProductCategory
 
@@ -78,11 +79,16 @@ def product(request, product_id):
     )
 
 
-def category(request, pk):
+def category(request, pk, page=1):
     catigories = ProductCategory.objects.all()
     category = get_object_or_404(ProductCategory, pk=pk)
     products = Product.objects.filter(category=category)
     hot_product = get_hot_product(products)
+    paginator = Paginator(products.exclude(pk=hot_product.pk), 3)
+    try:
+        products_page = paginator.page(page)
+    except EmptyPage:
+        products_page = paginator.page(paginator.num_pages)
     return render(
         request,
         "mainapp\products.html",
@@ -90,8 +96,11 @@ def category(request, pk):
             "main_menu_links": MAIN_MENU_LINKS,
             "title": "Продукты",
             "hot_product": get_hot_product(products),
-            "products": products.exclude(pk=hot_product.pk)[:4],
+            "paginator": paginator,
+            "page": products_page,
+            "products": products_page,            
             "date": timezone.now,
             "catigories": catigories,
+            "category" : category,
         },
     )
