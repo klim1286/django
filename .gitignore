@@ -128,4 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 geekshop/tmp/email/
-geekshop/credentials.json
+geekshop/geekshop/credentials.json
