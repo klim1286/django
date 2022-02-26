@@ -9,7 +9,6 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("edit/", views.edit, name="edit"),
     re_path(
-        r'^verify/(?P<email>.+)/(?P<activation_key>\w+)', 
-        views.verify, 
-        name='verify'),
+        r"^verify/(?P<email>.+)/(?P<activation_key>\w+)", views.verify, name="verify"
+    ),
 ]

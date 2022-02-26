@@ -43,7 +43,7 @@ class ShopUserRegisterForm(UserCreationForm):
         user = super().save()
         user.is_active = False
         user.activation_key = hashlib.md5(
-            user.email.encode('utf-8') + os.urandom(64)
+            user.email.encode("utf-8") + os.urandom(64)
         ).hexdigest()
         user.save()
         return user

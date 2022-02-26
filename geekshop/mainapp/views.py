@@ -83,9 +83,9 @@ def category(request, pk, page=1):
             "hot_product": get_hot_product(products),
             "paginator": paginator,
             "page": products_page,
-            "products": products_page,            
+            "products": products_page,
             "date": timezone.now,
             "catigories": catigories,
-            "category" : category,
+            "category": category,
         },
     )
