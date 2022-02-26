@@ -4,16 +4,6 @@ from django.core.paginator import Paginator, EmptyPage
 from django.utils import timezone
 from .models import Product, ProductCategory
 
-MAIN_MENU_LINKS = [
-    {"url": "main", "active": ["main"], "name": "Домой"},
-    {
-        "url": "products:all",
-        "active": ["products:all", "products:category"],
-        "name": "Продукты",
-    },
-    {"url": "contact", "active": ["contact"], "name": "Контакты"},
-]
-
 
 def get_hot_product(queryset):
     return random.choice(queryset)
@@ -23,9 +13,8 @@ def index(request):
     products = Product.objects.all()[:4]
     return render(
         request,
-        "mainapp\index.html",
+        "mainapp/index.html",
         context={
-            "main_menu_links": MAIN_MENU_LINKS,
             "title": "Главная",
             "date": timezone.now,
             "products": products,
@@ -36,9 +25,8 @@ def index(request):
 def contact(request):
     return render(
         request,
-        "mainapp\contact.html",
+        "mainapp/contact.html",
         context={
-            "main_menu_links": MAIN_MENU_LINKS,
             "title": "Контакты",
             "date": timezone.now,
         },
@@ -51,9 +39,8 @@ def products(request):
     hot_product = get_hot_product(products)
     return render(
         request,
-        "mainapp\products.html",
+        "mainapp/products.html",
         context={
-            "main_menu_links": MAIN_MENU_LINKS,
             "title": "Продукты",
             "hot_product": hot_product,
             "products": products.exclude(pk=hot_product.pk)[:4],
@@ -68,11 +55,10 @@ def product(request, product_id):
     catigories = ProductCategory.objects.all()
     return render(
         request,
-        "mainapp\product.html",
+        "mainapp/product.html",
         context={
             "product": product,
             "category": product.category,
-            "main_menu_links": MAIN_MENU_LINKS,
             "title": "Продукты",
             "catigories": catigories,
         },
@@ -91,16 +77,15 @@ def category(request, pk, page=1):
         products_page = paginator.page(paginator.num_pages)
     return render(
         request,
-        "mainapp\products.html",
+        "mainapp/products.html",
         context={
-            "main_menu_links": MAIN_MENU_LINKS,
             "title": "Продукты",
             "hot_product": get_hot_product(products),
             "paginator": paginator,
             "page": products_page,
-            "products": products_page,            
+            "products": products_page,
             "date": timezone.now,
             "catigories": catigories,
-            "category" : category,
+            "category": category,
         },
     )
