@@ -4,5 +4,6 @@
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Войти">
+        <a class='button' href="{% url "social:begin" "github" %}">GitHub</a>
     </form>
 {% endblock  %}

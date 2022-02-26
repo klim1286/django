@@ -5,7 +5,7 @@ from django.contrib.auth.forms import (
     UserChangeForm,
 )
 from django import forms
-from .models import ShopUser
+from .models import ShopUser, ShopUserProfile
 
 
 class ShopUserLoginForm(AuthenticationForm):
@@ -83,3 +83,14 @@ class ShopUserEditForm(UserChangeForm):
                 "Несовершеннолетним не разрешено пользоваться магазином."
             )
         return age
+
+
+class ShopUserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = ShopUserProfile
+        fields = ("about", "gender")
+
+    def __init__(self, *args, **kwargs):
+        super(ShopUserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs["class"] = "form-control"
