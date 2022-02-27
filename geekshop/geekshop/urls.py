@@ -6,7 +6,7 @@ from mainapp import views as mainapp
 
 
 urlpatterns = [
-    # path("admin/", admin.site.urls),
+    # path("admins/", admin.site.urls),
     path("admin/", include("adminapp.urls", namespace="admin")),
     path("", mainapp.index, name="main"),
     path("contact/", mainapp.contact, name="contact"),
@@ -14,6 +14,7 @@ urlpatterns = [
     path("auth/", include("authapp.urls", namespace="auth")),
     path("basket/", include("basketapp.urls", namespace="basket")),
     path("", include("social_django.urls", namespace="social")),
+    path("orders/", include("ordersapp.urls", namespace="orders")),
 ]
 
 if settings.DEBUG:
