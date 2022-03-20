@@ -23,10 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-+rayq!39yl7jtz@y-1dyugkq576r%un+v(7pt%i%ykjj1yj+c@"
 
+DJANGO_PRODUCTION = bool(os.environ.get('DJANGO_PRODUCTION', False))
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not DJANGO_PRODUCTION
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1'] if DJANGO_PRODUCTION else []
 
 
 # Application definition
@@ -82,13 +83,38 @@ WSGI_APPLICATION = "geekshop.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+if DJANGO_PRODUCTION:
+    DJANGO_DB_NAME = os.environ.get('DJANGO_DB_NAME')
+    DJANGO_DB_USER = os.environ.get('DJANGO_DB_USER')
+    DJANGO_DB_PASSWORD = os.environ.get('DJANGO_DB_PASSWORD')
+    DJANGO_DB_HOST= os.environ.get('DJANGO_DB_HOST')
+    DJANGO_DB_PORT = int(os.environ.get('DJANGO_DB_PORT', '0'))
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    assert all({
+        DJANGO_DB_NAME,
+        DJANGO_DB_USER,
+        DJANGO_DB_PASSWORD,
+        DJANGO_DB_HOST,
+        DJANGO_DB_PORT,
+    })
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': DJANGO_DB_NAME,
+            'USER': DJANGO_DB_USER,
+            'PASSWORD': DJANGO_DB_PASSWORD,
+            'HOST': DJANGO_DB_HOST,
+            'PORT': DJANGO_DB_PORT,
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 
 # Password validation

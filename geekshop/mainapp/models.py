@@ -12,6 +12,12 @@ class ProductCategory(models.Model):
         return self.name
 
 
+class ProductManager(models.Manager):
+
+    def active_items(self):
+        return Product.objects.filter(is_active=True)
+
+
 class Product(models.Model):
     name = models.CharField(verbose_name="Имя", max_length=100)
     price = models.DecimalField(
@@ -22,6 +28,9 @@ class Product(models.Model):
     image = models.ImageField(verbose_name="Картинка", blank=True, upload_to="products")
     quantity = models.PositiveIntegerField(verbose_name="Количество", default=0)
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    is_active = models.BooleanField(verbose_name="Активный", default=True)
+
+    objects = ProductManager()
 
     def __str__(self):
         return self.name
